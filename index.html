@@ -8,9 +8,17 @@
 	<title>Snake</title>
 </head>
 <body onload="load()">
-	<div id="game">
-		<div id="apple"></div>
+	<div id="main">
+		<div id="game">
+			<div id="apple"></div>
+		</div>
+		<div class="hidden absolut" id="pauseScreen">
+			<h2>paused</h2>
+		</div>
+		<div class="hidden absolut" id="endScreen">
+			<h2>game over</h2>
+			<p>press any key to restart</p>
+		</div>
 	</div>
-	<h2 class="hidden" id="pauseScreen">paused</h1>
-	<h2 class="hidden" id="endScreen">game over</h1>
+	<p id="score">score: 0</p>
 </body>

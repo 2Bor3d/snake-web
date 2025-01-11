@@ -2,6 +2,7 @@ pWIDTH = 20;
 pHEIGHT = 20;
 fWIDTH = 10;
 fHEIGHT = 10;
+SPEED = 500;
 
 direction = {
 	"x": 0,
@@ -14,7 +15,8 @@ apple = {
 };
 locked = false;
 paused = false;
-SPEED = 500;
+end = false;
+score = 0;
 
 
 function random(max) {
@@ -50,7 +52,21 @@ function generateApple() {
 }
 
 function move(event) {
-	if (event.key=="Escape") {
+	if (end) {
+		end = false;
+		locked = false;
+		generateApple();
+		score=0;
+		for (i=0;i<snake.length;i++) {
+			snake[i].element.remove();
+		}
+		snake = [
+			createSnake(Math.floor(fWIDTH/2), Math.floor(fHEIGHT/2)),
+			createSnake(Math.floor(fWIDTH/2), Math.floor(fHEIGHT/2)+1),
+		]
+		document.getElementById("endScreen").classList.add("hidden");
+		interval = setInterval(tick, SPEED);
+	} else if (event.key=="Escape") {
 		if (!paused) {
 			clearInterval(interval);
 			document.getElementById("pauseScreen").classList.remove("hidden");
@@ -81,6 +97,28 @@ function move(event) {
 	}
 }
 
+function check() {
+	if (0>snake[snake.length-1].x||snake[snake.length-1].x>=fWIDTH
+		||0>snake[snake.length-1].y||snake[snake.length-1].y>=fHEIGHT) {
+		end = true;
+	}
+	positions = [];
+	for (a=0;a<snake.length;a++) {
+		for (b=0;b<snake.length;b++) {
+			if (a!=b&&snake[a].x==snake[b].x&&snake[a].y==snake[b].y) {
+				end = true;
+			}
+		}
+	}
+
+	if (end) {
+		document.getElementById("endScreen").classList.remove("hidden");
+		clearInterval(interval);
+		locked = false;
+		snake[snake.length-1].element.classList.add("hidden");
+	}
+}
+
 function tick() {
 	locked = false;
 	x = snake[snake.length-1].x + direction.x;
@@ -88,11 +126,15 @@ function tick() {
 	snake.push(createSnake(x, y));
 
 	if (snake[snake.length-1].x==apple.x&&snake[snake.length-1].y==apple.y) {
-		generateApple()
+		generateApple();
+		score++;
+		document.getElementById("score").innerText = "score: "+score;
 	} else {
 		snake[0].element.remove();
 		snake.shift();
 	}
+
+	check();
 }
 
 function load() {
