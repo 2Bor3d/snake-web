@@ -1,0 +1,44 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #202020;
+}
+
+h2 {
+	position: absolute;
+}
+
+.hidden {
+	display: none;
+}
+
+.snake {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: #0000ff
+}
+
+#game {
+	width: 200px;
+	height: 200px;
+	background-color: #20a020;
+	position: absolute;
+}
+
+#apple {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background-color: #ff0000;
+}
+
